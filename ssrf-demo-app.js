@@ -9,17 +9,25 @@ var http = require('http');
 var needle = require('needle');
 var express = require('express');
 var app = express();
+var commandLineArgs = require('command-line-args');
+
 // Currently this app is also vulnerable to reflective XSS as well. Kind of an easter egg :)
-//var xssFilters = require('xss-filters');
 
+var cli = commandLineArgs([
+  { name: 'port', alias: 'p', type: Number, defaultOption:80 }
+])
+var options = cli.parse()
 
-var userCount = 0;
 app.get('/', function(request, response){
     var params = request.params;
     var url = request.query['url'];
-    var mime = request.query['mime'];
+    if (request.query['mime'] == 'plain'){
+	var mime = 'plain';
+    } else {
+	var mime = 'html';
+    };
+
     console.log('New request: '+request.url);
-    userCount++;
 
     needle.get(url, { timeout: 3000 }, function(error, response1) {
       if (!error && response1.statusCode == 200) {
@@ -39,6 +47,14 @@ app.get('/', function(request, response){
       }
     });
 })
+if (options.port) {
+	var port = options.port
+} else {
+	var port = 80
+}
 
-app.listen(80);
-console.log('Server started');
+app.listen(port);
+console.log('\n##################################################')
+console.log('#\n#  Server listening for connections on port:'+port);
+console.log('#  Connect to server using the following url: \n#  -- http://[server]:'+port+'/?url=[SSRF URL]')
+console.log('#\n##################################################')

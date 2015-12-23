@@ -1,5 +1,28 @@
 # Nodejs-SSRF-App
 Nodejs application intentionally vulnerable to SSRF
 
-This readme is a work in progress. 
+#Operating Systems
+Ubuntu 14.04 TLS
+Kali 2.0
 
+Download and Setup
+```ShellSession
+seth@ubuntu:/opt# sudo git clone https://github.com/sethsec/Nodejs-SSRF-App.git
+seth@ubuntu:/opt# cd Nodejs-SSRF-App/
+seth@ubuntu:/opt/Nodejs-SSRF-App# sudo ./install.sh
+
+ To start the server:
+  sudo nodejs ssrf-demo-app.js
+  sudo nodejs ssrf-demo-app.js -p 8080
+
+seth@ubuntu:/opt/Nodejs-SSRF-App# sudo nodejs ssrf-demo-app.js
+
+##################################################
+#
+#  Server listening for connections on port:888
+#  Connect to server using the following url:
+#  -- http://[server]:888/?url=[SSRF URL]
+#
+##################################################
+
+```
