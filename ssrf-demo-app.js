@@ -13,10 +13,10 @@ var commandLineArgs = require('command-line-args');
 
 // Currently this app is also vulnerable to reflective XSS as well. Kind of an easter egg :)
 
-var cli = commandLineArgs([
+var cli = [
   { name: 'port', alias: 'p', type: Number, defaultOption:80 }
-])
-var options = cli.parse()
+]
+var options = commandLineArgs(cli)
 
 app.get('/', function(request, response){
     var params = request.params;
