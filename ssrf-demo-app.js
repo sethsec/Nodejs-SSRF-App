@@ -20,12 +20,21 @@ var options = commandLineArgs(cli)
 
 app.get('/', function(request, response){
     var params = request.params;
-    var url = request.query['url'];
     if (request.query['mime'] == 'plain'){
-	var mime = 'plain';
+      var mime = 'plain';
+        } else {
+      var mime = 'html';
+        };
+    if (request.query['url'] ){ 
+    	var url = request.query['url'];
     } else {
-	var mime = 'html';
-    };
+        response.writeHead(200, {'Content-Type': 'text/'+mime});
+        response.write('<h1>Welcome to sethsec\'s SSRF demo.</h1>\n\n');
+        response.write('<h2>I am an application. I want to be useful, so if you specify the url parameter, I\'ll request the page for you:</h2><br><br>\n\n\n');
+        response.write('<h2>Example: http://localhost:8000/?url=https://ifconfig.me</h2><br><br>\n\n\n');
+
+	response.end();
+    }
 
     console.log('New request: '+request.url);
 
